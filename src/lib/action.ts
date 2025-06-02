@@ -3,15 +3,9 @@
 
 import { supabase } from './supabase';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import prisma from './db';
-import { error } from 'console';
 
 // --- Database Actions (Prisma) ---
-
-type Return = {
-  error: string
-};
 
 export async function createPost(formData: FormData): Promise<void> {
   const title = formData.get('title') as string;
@@ -58,7 +52,7 @@ export async function uploadFile(formData: FormData) {
   }
 
   const fileName = `${Date.now()}-${file.name}`;
-  const { data, error } = await supabase.storage
+  const { error } = await supabase.storage
     .from('public-files') // Replace with your bucket name
     .upload(fileName, file, {
       cacheControl: '3600',
@@ -77,7 +71,7 @@ export async function uploadFile(formData: FormData) {
 }
 
 export async function deleteFile(fileName: string) {
-  const { data, error } = await supabase.storage.from('public-files').remove([fileName]);
+  const { error } = await supabase.storage.from('public-files').remove([fileName]);
 
   if (error) {
     console.error('Error deleting file:', error);

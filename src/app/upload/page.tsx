@@ -2,7 +2,6 @@
 // src/app/upload/page.tsx
 import { uploadFile, deleteFile } from '@/lib/action';
 import { supabase } from '@/lib/supabase';
-import { get } from 'http';
 
 interface FileObject {
   name: string;
